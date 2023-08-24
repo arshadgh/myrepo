@@ -75,7 +75,6 @@ jobs:
     - name: Publish
       run: |-
         docker push \
-        --gcloud auth configure-docker \
         --$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
     # Set up kustomize
     - name: Set up Kustomize
