@@ -64,6 +64,12 @@ jobs:
       with:
         cluster_name: ${{ env.GKE_CLUSTER }}
         location: ${{ env.GKE_ZONE }}
+      
+    - name: Configure kubectl
+      run: |
+        echo "$KUBE_CONFIG_DATA" | base64 -d > $HOME/.kube/config
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
 
     # Build the Docker image
     - name: Build
