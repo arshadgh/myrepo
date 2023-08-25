@@ -72,6 +72,9 @@ jobs:
         cat ${HOME}/.kube/config
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      
+    - name: ip
+      run: curl icanhazip.com
 
     # Build the Docker image
     - name: Build
