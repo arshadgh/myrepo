@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
       - name: fist-app
-        image: arshadghazi/myrepo:48
+        image: arshadghazi/myrepo:t
