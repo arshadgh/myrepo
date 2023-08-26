@@ -94,6 +94,11 @@ jobs:
        curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
        chmod u+x ./kustomize
     # Deploy the Docker image to the GKE cluster
+    
+    - name: Update Image Tag in deployment.yaml
+      run: |
+        sed -i 's#image: gcr.io/${PROJECT_ID}/${REPOSITORY}/${IMAGE}.*#image: gcr.io/${PROJECT_ID}/${REPOSITORY}/${IMAGE}:$GITHUB_SHA#' deployment.yaml
+
     - name: Deploy
       run: |-
         # replacing the image name in the k8s template
