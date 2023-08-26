@@ -19,8 +19,8 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GAR_LOCATION: asia-east1 # TODO: update region of the Artifact Registry
-  GKE_CLUSTER: autopilot-cluster-1    # TODO: update to cluster name
-  GKE_ZONE: asia-east1   # TODO: update to cluster zone
+  GKE_CLUSTER: primary    # TODO: update to cluster name
+  GKE_ZONE: us-central1   # TODO: update to cluster zone
   DEPLOYMENT_NAME: first-app-deployment # TODO: update to deployment name
   REPOSITORY:  t-cr # TODO: update to Artifact Registry docker repository
   IMAGE: static-site
@@ -80,14 +80,14 @@ jobs:
     - name: Build
       run: |-
         docker build \
-          --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
+          --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:latest" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" \
           .
     # Push the Docker image to Google Artifact Registry
     - name: Publish
       run: |-
-        docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
+        docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:latest"
     # Set up kustomize
     - name: Set up Kustomize
       run: |-
