@@ -5,5 +5,5 @@ resources:
   - deployment.yaml
 
 images:
-  - newName: gcr.io/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}
+  - newName: $GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
     newTag: $GITHUB_SHA
