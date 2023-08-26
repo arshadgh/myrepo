@@ -74,7 +74,7 @@ jobs:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       
     - name: ip
-      run: curl icanhazip.com
+      run: curl ifconfig.me
 
     # Build the Docker image
     - name: Build
