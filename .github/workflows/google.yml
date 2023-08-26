@@ -80,14 +80,14 @@ jobs:
     - name: Build
       run: |-
         docker build \
-          --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA" \
+          --tag "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:latest" \
           --build-arg GITHUB_SHA="$GITHUB_SHA" \
           --build-arg GITHUB_REF="$GITHUB_REF" \
           .
     # Push the Docker image to Google Artifact Registry
     - name: Publish
       run: |-
-        docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA"
+        docker push "$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:latest"
     # Set up kustomize
     - name: Set up Kustomize
       run: |-
@@ -102,7 +102,7 @@ jobs:
     
     - name: Update Image Tag in deployment.yaml
       run: |
-        sed -i 's#image: gcr.io/${PROJECT_ID}/${REPOSITORY}/${IMAGE}.*#image: gcr.io/${PROJECT_ID}/${REPOSITORY}/${IMAGE}:$GITHUB_SHA#' deployment.yaml
+        sed -i 's#image: gcr.io/${PROJECT_ID}/${REPOSITORY}/${IMAGE}.*#image: gcr.io/${PROJECT_ID}/${REPOSITORY}/${IMAGE}:latest' deployment.yaml
       
     - name: Debug Directory Contents after sed update
       run: |
