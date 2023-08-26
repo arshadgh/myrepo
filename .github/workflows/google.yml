@@ -99,10 +99,6 @@ jobs:
       run: |
        ls -l
        cat kustomization.yaml
-    
-    - name: Update Image Tag in deployment.yaml
-      run: |
-        sed -i 's#image: gcr.io/${PROJECT_ID}/${REPOSITORY}/${IMAGE}.*#image: gcr.io/${PROJECT_ID}/${REPOSITORY}/${IMAGE}:latest' deployment.yaml
       
     - name: Debug Directory Contents after sed update
       run: |
