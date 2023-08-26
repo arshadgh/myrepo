@@ -5,5 +5,5 @@ resources:
   - deployment.yaml
 
 images:
-  - name: gcr.io/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}
+  - newName: gcr.io/${PROJECT_ID}/${REPOSITORY}/${IMAGE_NAME}
     newTag: $GITHUB_SHA
