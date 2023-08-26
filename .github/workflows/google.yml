@@ -94,16 +94,31 @@ jobs:
        curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
        chmod u+x ./kustomize
     # Deploy the Docker image to the GKE cluster
+
+    - name: Debug Directory Contents before
+      run: |
+       ls -l
+       cat customization.yaml
     
     - name: Update Image Tag in deployment.yaml
       run: |
         sed -i 's#image: gcr.io/${PROJECT_ID}/${REPOSITORY}/${IMAGE}.*#image: gcr.io/${PROJECT_ID}/${REPOSITORY}/${IMAGE}:$GITHUB_SHA#' deployment.yaml
+      
+    - name: Debug Directory Contents after sed update
+      run: |
+       ls -l
+       cat customization.yaml
 
     - name: Deploy
       run: |-
         # replacing the image name in the k8s template
         ./kustomize edit set image LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE:TAG=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
-        ./kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment/$DEPLOYMENT_NAME
+
+    - name: Debug Directory Contents after set kustomize
+      run: |
+       ls -l
+       cat customization.yaml    
+      # ./kustomize build . | kubectl apply -f -
+      # kubectl rollout status deployment/$DEPLOYMENT_NAME
         
 
