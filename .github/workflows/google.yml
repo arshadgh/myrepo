@@ -19,8 +19,8 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GAR_LOCATION: asia-east1 # TODO: update region of the Artifact Registry
-  GKE_CLUSTER: primary    # TODO: update to cluster name
-  GKE_ZONE: us-central1-a   # TODO: update to cluster zone
+  GKE_CLUSTER: autopilot-cluster-1    # TODO: update to cluster name
+  GKE_ZONE: asia-east1   # TODO: update to cluster zone
   DEPLOYMENT_NAME: first-app-deployment # TODO: update to deployment name
   REPOSITORY:  t-cr # TODO: update to Artifact Registry docker repository
   IMAGE: static-site
