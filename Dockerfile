@@ -10,7 +10,7 @@ COPY ./client/package*.json ./
 # Install frontend dependencies
 RUN npm install
 
-# Copy frontend source code
+# Copy frontend source codee
 COPY ./client ./
 
 # Build the React app for production
