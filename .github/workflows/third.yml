@@ -28,7 +28,7 @@ env:
 jobs:
   GG:
     name: play
-    runs-on: self-hosted
+    runs-on: GG
     environment: product
 
     permissions:
