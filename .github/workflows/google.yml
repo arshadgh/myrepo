@@ -27,7 +27,7 @@ env:
 
 jobs:
   setup-build-publish-deploy:
-    name: Setup, Build
+    name: Setup
     runs-on: self-hosted
     environment: dev
 
