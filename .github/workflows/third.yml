@@ -10,7 +10,7 @@
 #
 # For more support on how to run the workflow, please visit https://github.com/google-github-actions/setup-gcloud/tree/master/example-workflows/gke-kustomize
 
-name: Build and Deploy to GKE
+name: o GKE
 
 on:
   push:
@@ -26,10 +26,10 @@ env:
   IMAGE: static-site
 
 jobs:
-  setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
-    runs-on: ubuntu-latest
-    environment: production
+  GG:
+    name: play
+    runs-on: self-hosted
+    environment: product
 
     permissions:
       contents: 'read'
