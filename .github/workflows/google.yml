@@ -28,7 +28,7 @@ env:
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build
-    runs-on: self-hosted-runner-1
+    runs-on: self-hosted
     environment: dev
 
     permissions:
