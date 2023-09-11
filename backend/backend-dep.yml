@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-app-deployment
+spec:
+  replicas: 2 # Number of desired replicas
+  selector:
+    matchLabels:
+      app: back-app
+  template:
+    metadata:
+      labels:
+        app: back-app
+    spec:
+      containers:
+      - name: back-app
+        image: arshadghazi/myrepo:07
+        ports:
+        - containerPort: 5000
+        env:
+        - name: MONGODB_URI
+          value: mongodb://mongodb.default.svc.cluster.local:27017/memories_db
+
+

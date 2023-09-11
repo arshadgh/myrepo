@@ -1,0 +1,20 @@
+# Use the official Node.js 14 base image
+FROM node:14
+
+# Set working directory for the backend
+WORKDIR /usr/src/app/server
+
+# Copy backend package.json and package-lock.json
+COPY ./server/package*.json ./
+
+# Install backend dependencies
+RUN npm install
+
+# Copy backend source code
+COPY ./server ./
+
+# Expose the backend port (if needed)
+EXPOSE 5000
+
+# Start the backend server
+CMD ["npm", "start"]
