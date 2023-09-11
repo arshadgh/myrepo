@@ -10,7 +10,7 @@
 #
 # For more support on how to run the workflow, please visit https://github.com/google-github-actions/setup-gcloud/tree/master/example-workflows/gke-kustomize
 
-name: Build and Deploy to GKE
+name: Deploy to GKE
 
 on:
   push:
@@ -19,17 +19,17 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GAR_LOCATION: asia-east1 # TODO: update region of the Artifact Registry
-  GKE_CLUSTER: autopilot-cluster-1    # TODO: update to cluster name
-  GKE_ZONE: asia-east1   # TODO: update to cluster zone
-  DEPLOYMENT_NAME: gke-test # TODO: update to deployment name
+  GKE_CLUSTER: cluster-11    # TODO: update to cluster name
+  GKE_ZONE: us-central1   # TODO: update to cluster zone
+  DEPLOYMENT_NAME: first-app-deployment # TODO: update to deployment name
   REPOSITORY:  t-cr # TODO: update to Artifact Registry docker repository
   IMAGE: static-site
 
 jobs:
   setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
-    runs-on: ubuntu-latest
-    environment: production
+    name: Setup, Build
+    runs-on: self-hosted-runner-1
+    environment: dev
 
     permissions:
       contents: 'read'
@@ -53,16 +53,28 @@ jobs:
       uses: 'google-github-actions/auth@v0'
       with:
           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+          token_format: 'access_token'
 
     - name: Docker configuration
       run: |-
-        echo ${{steps.auth.outputs.access_token}} | docker login -u oauth2accesstoken --password-stdin https://$GAR_LOCATION-docker.pkg.dev
+        gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://$GAR_LOCATION-docker.pkg.dev
     # Get the GKE credentials so we can deploy to the cluster
     - name: Set up GKE credentials
       uses: google-github-actions/get-gke-credentials@v0
       with:
         cluster_name: ${{ env.GKE_CLUSTER }}
         location: ${{ env.GKE_ZONE }}
+      
+    - name: Configure kubectl
+      run: |
+        mkdir -p ${HOME}/.kube
+        echo "$KUBE_CONFIG_DATA" | base64 -d > ${HOME}/.kube/config
+        cat ${HOME}/.kube/config
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+      
+    - name: ip
+      run: curl ifconfig.me
 
     # Build the Docker image
     - name: Build
@@ -79,13 +91,30 @@ jobs:
     # Set up kustomize
     - name: Set up Kustomize
       run: |-
-        curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-        chmod u+x ./kustomize
+       curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+       chmod u+x ./kustomize
     # Deploy the Docker image to the GKE cluster
+
+    - name: Debug Directory Contents before
+      run: |
+       ls -l
+       cat kustomization.yaml
+      
+    - name: Debug Directory Contents after sed update
+      run: |
+       ls -l
+       cat kustomization.yaml
+
     - name: Deploy
       run: |-
         # replacing the image name in the k8s template
         ./kustomize edit set image LOCATION-docker.pkg.dev/PROJECT_ID/REPOSITORY/IMAGE:TAG=$GAR_LOCATION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE:$GITHUB_SHA
-        ./kustomize build . | kubectl apply -f -
-        kubectl rollout status deployment/$DEPLOYMENT_NAME
-        kubectl get services -o wide
+
+    - name: Debug Directory Contents after set kustomize
+      run: |
+       ls -l
+       cat kustomization.yaml    
+       ./kustomize build . | kubectl apply -f -
+       kubectl rollout status deployment/$DEPLOYMENT_NAME
+        
+
