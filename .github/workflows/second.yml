@@ -28,7 +28,7 @@ env:
 jobs:
   setup-build-publish-deploy:
     name: Publish, and Deploy
-    runs-on: self-hosted-runner-2
+    runs-on: GG
     environment: staging
 
     permissions:
