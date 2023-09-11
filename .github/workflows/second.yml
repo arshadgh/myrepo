@@ -14,11 +14,11 @@ name: Build and Deploy to GKE
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "arshadgh-patch-1" ]
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GAR_LOCATION: us-central1 # TODO: update region of the Artifact Registry
+  GAR_LOCATION: asia-east1 # TODO: update region of the Artifact Registry
   GKE_CLUSTER: cluster-11    # TODO: update to cluster name
   GKE_ZONE: us-central1-c   # TODO: update to cluster zone
   DEPLOYMENT_NAME: backend # TODO: update to deployment name
@@ -27,9 +27,9 @@ env:
 
 jobs:
   setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
-    runs-on: self-hosted
-    environment: production
+    name: Publish, and Deploy
+    runs-on: self-hosted-runner-2
+    environment: staging
 
     permissions:
       contents: 'read'
