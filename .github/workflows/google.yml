@@ -28,7 +28,7 @@ env:
 jobs:
   setup:
     name: Setup and
-    runs-on: GG
+    runs-on: self-hosted
     environment: dev
 
     permissions:
