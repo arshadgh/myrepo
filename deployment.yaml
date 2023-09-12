@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: first-app-deployment
 spec:
-  replicas: 3 # Number of desired replicas
+  replicas: 2 # Number of desired replicas
   selector:
     matchLabels:
       app: first-app
