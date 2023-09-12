@@ -28,7 +28,7 @@ env:
 jobs:
   setup:
     name: Setup
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment: dev
 
     permissions:
