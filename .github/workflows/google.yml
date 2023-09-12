@@ -27,7 +27,7 @@ env:
 
 jobs:
   setup:
-    name: Setup
+    name: Set
     runs-on: GG
     environment: dev
 
