@@ -6,7 +6,7 @@ WORKDIR /usr/src/app/client
 
 # Copy frontend package.json and package-lock.json
 COPY ./client/package*.json ./
-COPY MyCustom service.yml .
+COPY settings.php service.yml .
 # Install frontend dependencies
 RUN npm install
 
