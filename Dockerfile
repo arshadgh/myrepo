@@ -6,7 +6,7 @@ WORKDIR /usr/src/app/client
 
 # Copy frontend package.json and package-lock.json
 COPY ./client/package*.json ./
-COPY settings.php services.yml .
+
 # Install frontend dependencies
 RUN npm install
 
@@ -21,6 +21,7 @@ FROM nginx:latest
 
 # Copy the built React app from the build stage to Nginx web server
 COPY --from=build /usr/src/app/client/build /usr/share/nginx/html
+COPY settings.php services.yml /usr/share/nginx/html
 COPY ./client/entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
 # Expose the frontend port (if needed)
