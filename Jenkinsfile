@@ -16,5 +16,12 @@ pipeline {
                 }
             }
         }
+        stage('cat ') {
+            steps {
+               sh 'cat settings.php'
+                sh 'cat services.yml'
+                }
+            }
+        }
     }
 }
