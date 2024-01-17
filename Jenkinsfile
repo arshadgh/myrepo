@@ -22,6 +22,5 @@ pipeline {
                 sh 'cat services.yml'
                 }
             }
-        }
     }
 }
